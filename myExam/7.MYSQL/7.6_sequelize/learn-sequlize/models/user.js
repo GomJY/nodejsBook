@@ -23,6 +23,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.literal('now()'),
         },
     }, {
-        timestamp: false,
+        timestamps: false,
     });
 }

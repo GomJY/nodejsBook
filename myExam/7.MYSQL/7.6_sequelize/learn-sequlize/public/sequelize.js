@@ -1,5 +1,5 @@
 //사용자 이름 눌렀을 때 덧글 로딩
-[].foreach.call(document.querySelectorAll('#user-list tr'), function(el) {
+[].forEach.call(document.querySelectorAll('#user-list tr'), function(el) {
     el.addEventListener('click', function() {
         var id = el.querySelector('td').textContent;
         getComment(id);
@@ -7,7 +7,7 @@
 });
 //사용자 로딩
 function getUser(){
-    var xhr = newXMLHttpRequest();
+    var xhr = new XMLHttpRequest();
     xhr.onload = function() {
         if(xhr.status === 200) {
             var users = JSON.parse(xhr.responseText);
@@ -138,30 +138,32 @@ document.getElementById('user-form').addEventListener('submit', function(e) {
     e.target.age.value = '';
     e.target.married.checked = false;
 });
-// 댓글 등록시
-document.getElementById('comment-form').addEventListener('submit', (e) => {
+// 댓글 등록 시
+document.getElementById('comment-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var id = e.target.userid.value;
     var comment = e.target.comment.value;
 
     if (!id) {
-        return alert('아이디를 입력하세요');
-      }
+      return alert('아이디를 입력하세요');
+    }
     if (!comment) {
-        return alert('댓글을 입력하세요');
+      return alert('댓글을 입력하세요');
     }
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
-        if (xhr.status === 201) {
-            console.log(xhr.responseText);
-            getComment(id);
-        } else {
-            console.error(xhr.responseText);
-        }
+      if (xhr.status === 201) {
+        console.log(xhr.responseText);
+        getComment(id);
+      } else {
+        console.error(xhr.responseText);
+      }
     };
     xhr.open('POST', '/comments');
     xhr.setRequestHeader('Content-Type', 'application/json');
+    console.log("덧글작성 : ", JSON.stringify({ id: id, comment: comment }));
     xhr.send(JSON.stringify({ id: id, comment: comment }));
     e.target.userid.value = '';
     e.target.comment.value = '';
-});
+  });
+  
